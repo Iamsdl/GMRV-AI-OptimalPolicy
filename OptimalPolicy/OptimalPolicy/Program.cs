@@ -8,14 +8,139 @@ namespace OptimalPolicy
 {
     class Program
     {
+        private static int n = 3, m = 4;
+
+        private static float[,] initialState = new float[,]
+        {
+            { 0, 0,         0, 0},
+            { 0, float.NaN, 0, -1},
+            { 0, 0,         0, 1}
+        };
+        private static bool[,] cannotBeChanged = new bool[,]
+        {
+            { false, false, false, false},
+            { false, true , false, true},
+            { false, false, false, true}
+        };
+
+        //private static int startX = 0, startY = 0;
+        private static float probUp = 0.8f, probDown = 0, probLeft = 0.1f, probRight = 0.1f;
+        private static float stepReward = 0.01f;
+
+
+
+        private static float epsilon = 0.1f;
+
+
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            float[,] statePrevious;
+            float[,] stateNext = initialState;
+            float error = 100;
+            while (Math.Abs(error) > epsilon)
+            {
+                statePrevious = (float[,])stateNext.Clone();
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        if (cannotBeChanged[i, j])
+                        {
+                            continue;
+                        }
+                        int iUp = ((i + 1) < n) && !float.IsNaN(statePrevious[i + 1, j]) ? i + 1 : i;
+                        int iDown = ((i - 1) >= 0) && !float.IsNaN(statePrevious[i - 1, j]) ? i - 1 : i;
+                        int jRight = ((j + 1) < m) && !float.IsNaN(statePrevious[i, j + 1]) ? j + 1 : j;
+                        int jLeft = ((j - 1) >= 0) && !float.IsNaN(statePrevious[i, j - 1]) ? j - 1 : j;
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+                        stateNext[i, j] = stepReward +
+                            Math.Max
+                            (
+                                Math.Max
+                                (
+                                    probUp * statePrevious[iUp, j] +
+                                    probDown * statePrevious[iDown, j] +
+                                    probRight * statePrevious[i, jRight] +
+                                    probLeft * statePrevious[i, jLeft],
+
+                                    probUp * statePrevious[i, jRight] +
+                                    probDown * statePrevious[i, jLeft] +
+                                    probRight * statePrevious[iDown, j] +
+                                    probLeft * statePrevious[iUp, j]
+                                ),
+                                Math.Max
+                                (
+                                    probUp * statePrevious[iDown, j] +
+                                    probDown * statePrevious[iUp, j] +
+                                    probRight * statePrevious[i, jLeft] +
+                                    probLeft * statePrevious[i, jRight],
+
+                                    probUp * statePrevious[i, jLeft] +
+                                    probDown * statePrevious[i, jRight] +
+                                    probRight * statePrevious[iUp, j] +
+                                    probLeft * statePrevious[iDown, j]
+                                )
+                            );
+
+                    }
+                }
+
+                error = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0; j < m; j++)
+                    {
+                        if (!float.IsNaN(stateNext[i, j]))
+                        {
+                            error += stateNext[i, j] - statePrevious[i, j];
+
+                        }
+                        //Console.Write(stateNext[i, j] + " ");
+                    }
+                    //Console.Write("\n");
+                }
+                //Console.Write("\n");
+            }
+            for (int i = n - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    if (float.IsNaN(stateNext[i, j]))
+                    {
+                        Console.Write("  ");
+                        continue;
+                    }
+                    int iUp = ((i + 1) < n) && !float.IsNaN(stateNext[i + 1, j]) ? i + 1 : i;
+                    int iDown = ((i - 1) >= 0) && !float.IsNaN(stateNext[i - 1, j]) ? i - 1 : i;
+                    int jRight = ((j + 1) < m) && !float.IsNaN(stateNext[i, j + 1]) ? j + 1 : j;
+                    int jLeft = ((j - 1) >= 0) && !float.IsNaN(stateNext[i, j - 1]) ? j - 1 : j;
+
+                    float up = (stateNext[iUp, j] - stateNext[i, j]);
+                    float down = (stateNext[iDown, j] - stateNext[i, j]);
+                    float right = (stateNext[i, jRight] - stateNext[i, j]);
+                    float left = (stateNext[i, jLeft] - stateNext[i, j]);
+
+                    if (up > down && up > right && up > left)
+                    {
+                        Console.Write("^ ");
+                    }
+                    else if (down > up && down > right && down > left)
+                    {
+                        Console.Write("v ");
+                    }
+                    else if (left > down && left > right && left > up)
+                    {
+                        Console.Write("< ");
+                    }
+                    if (right > down && right > up && right > left)
+                    {
+                        Console.Write("> ");
+                    }
+                }
+                Console.Write("\n");
+
+            }
+            Console.Read();
         }
     }
 }
