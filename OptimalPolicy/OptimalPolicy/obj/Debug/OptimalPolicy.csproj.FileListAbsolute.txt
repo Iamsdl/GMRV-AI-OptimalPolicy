@@ -5,3 +5,10 @@ f:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\Optim
 f:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.csproj.CoreCompileInputs.cache
 f:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.exe
 f:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.pdb
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\bin\Debug\OptimalPolicy.exe.config
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\bin\Debug\OptimalPolicy.exe
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\bin\Debug\OptimalPolicy.pdb
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.csprojAssemblyReference.cache
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.csproj.CoreCompileInputs.cache
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.exe
+H:\My Stuff\SDL\Facultate\Master\anu 1\semestru 2\AI\GMRV-AI-OptimalPolicy\OptimalPolicy\OptimalPolicy\obj\Debug\OptimalPolicy.pdb

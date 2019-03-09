@@ -25,7 +25,7 @@ namespace OptimalPolicy
 
         //private static int startX = 0, startY = 0;
         private static float probUp = 0.8f, probDown = 0, probLeft = 0.1f, probRight = 0.1f;
-        private static float stepReward = 0.01f;
+        private static float stepReward = -2;
 
 
 
@@ -53,7 +53,7 @@ namespace OptimalPolicy
                         int jRight = ((j + 1) < m) && !float.IsNaN(statePrevious[i, j + 1]) ? j + 1 : j;
                         int jLeft = ((j - 1) >= 0) && !float.IsNaN(statePrevious[i, j - 1]) ? j - 1 : j;
 
-                        stateNext[i, j] = stepReward +
+                        stateNext[i, j] = stepReward + 
                             Math.Max
                             (
                                 Math.Max
@@ -92,7 +92,7 @@ namespace OptimalPolicy
                     {
                         if (!float.IsNaN(stateNext[i, j]))
                         {
-                            error += stateNext[i, j] - statePrevious[i, j];
+                            error = Math.Max(error,stateNext[i, j] - statePrevious[i, j]);
 
                         }
                         //Console.Write(stateNext[i, j] + " ");
@@ -115,20 +115,32 @@ namespace OptimalPolicy
                     int jRight = ((j + 1) < m) && !float.IsNaN(stateNext[i, j + 1]) ? j + 1 : j;
                     int jLeft = ((j - 1) >= 0) && !float.IsNaN(stateNext[i, j - 1]) ? j - 1 : j;
 
-                    float up = (stateNext[iUp, j] - stateNext[i, j]);
-                    float down = (stateNext[iDown, j] - stateNext[i, j]);
-                    float right = (stateNext[i, jRight] - stateNext[i, j]);
-                    float left = (stateNext[i, jLeft] - stateNext[i, j]);
+                    float up = probUp * stateNext[iUp, j] +
+                                    probDown * stateNext[iDown, j] +
+                                    probRight * stateNext[i, jRight] +
+                                    probLeft * stateNext[i, jLeft];
+                    float down = probUp * stateNext[iDown, j] +
+                                    probDown * stateNext[iUp, j] +
+                                    probRight * stateNext[i, jLeft] +
+                                    probLeft * stateNext[i, jRight];
+                    float right = probUp * stateNext[i, jRight] +
+                                    probDown * stateNext[i, jLeft] +
+                                    probRight * stateNext[iDown, j] +
+                                    probLeft * stateNext[iUp, j];
+                    float left = probUp * stateNext[i, jLeft] +
+                                    probDown * stateNext[i, jRight] +
+                                    probRight * stateNext[iUp, j] +
+                                    probLeft * stateNext[iDown, j];
 
-                    if (up > down && up > right && up > left)
+                    if (up >= down && up >= right && up >= left)//only if possible to go up
                     {
                         Console.Write("^ ");
                     }
-                    else if (down > up && down > right && down > left)
+                    else if (down > up && down >= right && down >= left)
                     {
                         Console.Write("v ");
                     }
-                    else if (left > down && left > right && left > up)
+                    else if (left > down && left >= right && left > up)
                     {
                         Console.Write("< ");
                     }
